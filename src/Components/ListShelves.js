@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import Shelf from "./Shelf";
 
 class ListShelves extends Component {
     static propTypes = {
@@ -12,7 +13,9 @@ class ListShelves extends Component {
         return (
         <div>
             <ul>
-                {books.map((book) => (<li>{book.title}</li>))}
+                <li><Shelf name="Currently Reading" books={books.filter((book) => (book.shelf === "currentlyReading"))}/></li>
+                <li><Shelf name="Want To Read" books={books.filter((book) => (book.shelf === "wantToRead"))}/></li>
+                <li><Shelf name="Read" books={books.filter((book) => (book.shelf === "read"))}/></li>
             </ul>
         </div>
         )
