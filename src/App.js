@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import {Route} from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import ListShelves from './Components/ListShelves';
+import SearchBook from './Components/SearchBook';
 import './App.css';
 
 class App extends Component {
@@ -18,7 +20,21 @@ class App extends Component {
 
     render() {
         return (
-            <ListShelves books={this.state.books}/>
+            <div>
+                <Route
+                    exact
+                    path="/"
+                    render={() => (
+                        <ListShelves books={this.state.books}/>
+                    )}
+                />
+                <Route
+                    path="/search"
+                    render={() => (
+                        <SearchBook/>
+                    )}
+                />
+            </div>
         );
     }
 }
