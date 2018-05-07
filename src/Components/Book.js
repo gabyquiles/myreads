@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 
 class Book extends Component {
     static propTypes = {
-        book: PropTypes.object.isRequired
+        book: PropTypes.shape({
+            imageLinks: PropTypes.object,
+            authors: PropTypes.array,
+            title: PropTypes.string
+        })
     };
 
     render() {
         const book = this.props.book;
-        console.log(book.authors);
         return (
             <div className="book">
                 <div className="book-top">
@@ -30,7 +33,7 @@ class Book extends Component {
                     </div>
                 </div>
                 <div className="book-title">{book.title}</div>
-                <div className="book-authors">{book.authors}</div>
+                <div className="book-authors">{book.authors ? book.authors.join(", ") : "Unknown"}</div>
             </div>
         )
     }
