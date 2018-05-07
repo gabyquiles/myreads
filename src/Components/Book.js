@@ -9,7 +9,7 @@ class Book extends Component {
         bookId: PropTypes.string
     };
     state = {
-        books: {}
+        book: undefined
     };
 
     componentDidMount() {
@@ -38,9 +38,7 @@ class Book extends Component {
                     <div className="book-authors">{book.authors ? book.authors.join(", ") : "Unknown"}</div>
                 </div>
                 :
-                <div className="book">
-                    Loading
-                </div>
+                <div className="loader"></div>
         )
     }
 }
