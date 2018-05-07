@@ -13,15 +13,11 @@ class SearchBook extends Component {
         this.setState(() => ({hasError: false}));
         BooksAPI.search(query.trim()).then((books) => {
             (books && 'error' in books) ? this.setState(() => ({hasError: true})) : this.setState(() => ({books}));
-            // books.error ? console.log("Hay books") : console.log("No hay nbooks");
-            // this.setState(() => ({hasError: false}));
-            // this.setState(() => (books.books ? {books} : {hasError: true}));
         })
     }
 
     render() {
         const {books, hasError} = this.state;
-        console.log(hasError)
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -41,7 +37,7 @@ class SearchBook extends Component {
                         <ol className="books-grid">
                             {books && books.map((book) => (
                                 <li key={book.id}>
-                                    <Book book={book}/>
+                                    <Book bookId={book.id}/>
                                 </li>
                             ))}
                         </ol>
