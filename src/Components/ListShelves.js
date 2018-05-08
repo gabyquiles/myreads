@@ -5,12 +5,12 @@ import Shelf from "./Shelf";
 
 class ListShelves extends Component {
     static propTypes = {
-        books: PropTypes.array.isRequired
+        books: PropTypes.array.isRequired,
+        refreshBooks: PropTypes.func
     };
 
     render() {
         const books = this.props.books;
-
         return (
             <div className="list-books">
                 <div className="list-books-title">
@@ -19,9 +19,12 @@ class ListShelves extends Component {
                 <div className="list-books-content">
                     <div>
                         <Shelf name="Currently Reading"
-                               books={books.filter((book) => (book.shelf === "currentlyReading"))}/>
-                        <Shelf name="Want To Read" books={books.filter((book) => (book.shelf === "wantToRead"))}/>
-                        <Shelf name="Read" books={books.filter((book) => (book.shelf === "read"))}/>
+                               books={books.filter((book) => (book.shelf === "currentlyReading"))}
+                               changeShelf={this.props.changeShelf}/>
+                        <Shelf name="Want To Read" books={books.filter((book) => (book.shelf === "wantToRead"))}
+                               changeShelf={this.props.changeShelf}/>
+                        <Shelf name="Read" books={books.filter((book) => (book.shelf === "read"))}
+                               changeShelf={this.props.changeShelf}/>
 
                     </div>
                 </div>

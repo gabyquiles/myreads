@@ -1,23 +1,31 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 import * as BooksAPI from '../BooksAPI';
 import Book from './Book';
 
 class SearchBook extends Component {
+    static propTypes = {
+        changeShelf: PropTypes.func,
+        myBooks: PropTypes.array.isRequired
+    };
+
     state = {
-        books: [],
-        hasError: false
+        searchResults: []
     };
 
     searchBooks(query) {
-        this.setState(() => ({hasError: false}));
-        BooksAPI.search(query.trim()).then((books) => {
-            (books && 'error' in books) ? this.setState(() => ({hasError: true})) : this.setState(() => ({books}));
-        })
+        if (query !== "") {
+            BooksAPI.search(query.trim()).then((searchResults) => {
+                (searchResults && 'error' in searchResults) ? this.setState(() => ({searchResults: []})) : this.setState(() => ({searchResults}));
+            })
+        }
     }
 
     render() {
-        const {books, hasError} = this.state;
+        console.log("Rendering");
+        const searchResults = this.state.searchResults;
+        const myBooks = this.props.myBooks;
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -32,20 +40,19 @@ class SearchBook extends Component {
                                onChange={(event) => this.searchBooks(event.target.value)}/>
                     </div>
                 </div>
-                {!hasError ?
-                    <div className="search-books-results">
-                        <ol className="books-grid">
-                            {books && books.map((book) => (
-                                <li key={book.id}>
-                                    <Book bookId={book.id}/>
+                <div className="search-books-results">
+                    <ol className="books-grid">
+                        {searchResults && searchResults.map((book) => {
+                            const myBook = myBooks.filter((myBook) => (myBook.id === book.id));
+                            const bookToDisplay = myBook.length > 0 ? myBook[0] : book;
+                            return (
+                                <li key={bookToDisplay.id}>
+                                    <Book book={bookToDisplay} changeShelf={this.props.changeShelf}/>
                                 </li>
-                            ))}
-                        </ol>
-                    </div> :
-                    <div>
-                        <h2>No books found</h2>
-                    </div>
-                }
+                            )
+                        })}
+                    </ol>
+                </div>
             </div>
         )
     }
